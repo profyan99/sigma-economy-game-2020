@@ -1,28 +1,65 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app>
+    <nav-bar class="nav-bar" :is-logged="isLogged"/>
+    <v-main>
+      <loader v-if="isLoading"/>
+      <template v-else>
+        <login v-if="!isLogged" @login="onLogin"/>
+        <exchange v-else/>
+      </template>
+    </v-main>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+//import axios from 'axios';
+
+import Login from './components/Login';
+import Loader from './components/Loader';
+import Exchange from './components/Exchange';
+import NavBar from './components/NavBar';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    NavBar,
+    Exchange,
+    Loader,
+    Login,
+  },
+  data() {
+    return {
+      isLogged: false,
+      isLoading: true,
+      account: {},
+    };
+  },
+  created() {
+    this.getAccount();
+  },
+  methods: {
+    getAccount() {
+      this.isLoading = false;
+      this.isLogged = true;
+     /* axios.get('/me')
+        .then(({ account }) => {
+          this.account = account;
+          this.isLogged = true;
+        })
+        .catch(() => {})
+        .finally(() => {
+          this.isLoading = false;
+        });*/
+    },
+    onLogin() {
+      this.getAccount();
+    },
+  },
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style scoped>
+.nav-bar {
+  flex: 0 0;
 }
 </style>
