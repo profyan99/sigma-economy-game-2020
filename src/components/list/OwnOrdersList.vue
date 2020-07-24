@@ -8,6 +8,7 @@
       <template v-slot:default>
         <thead>
         <tr>
+          <th class="text-left">Тип</th>
           <th class="text-left">Цена</th>
           <th class="text-left">Количество</th>
           <th class="text-left">Итоговая сумма</th>
@@ -15,7 +16,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="order in ordersSorted" :key="order.id">
+        <tr v-for="order in ordersSorted" :key="order.orderId">
+          <td>{{ order.type }}</td>
           <td>{{ order.price }}</td>
           <td>{{ order.amount }}</td>
           <td>{{ order.price * order.amount }}</td>

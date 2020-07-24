@@ -11,10 +11,10 @@
             <v-form>
               <v-text-field
                   label="Логин"
-                  name="login"
+                  name="username"
                   prepend-icon="person"
                   type="text"
-                  v-model="form.login"
+                  v-model="form.username"
               ></v-text-field>
 
               <v-text-field
@@ -31,7 +31,7 @@
             <v-spacer></v-spacer>
             <v-btn
                 color="primary"
-                @click="login"
+                @click="doLogin"
             >
               Войти на биржу
             </v-btn>
@@ -43,7 +43,7 @@
 </template>
 
 <script>
-  import axios from 'axios';
+  import { mapActions } from 'vuex';
 
   import Loader from './Loader';
 
@@ -56,20 +56,24 @@
       return {
         isLoading: false,
         form: {
-          login: '',
+          username: '',
           password: '',
         },
       };
     },
     methods: {
-      login() {
-        axios.post('/me', this.form)
-          .then(() => {
-            this.$emit('login');
+      ...mapActions('app', ['login']),
+      async doLogin() {
+        this.isLoading = true;
+        this.login(this.form)
+          .then(({ data }) => {
+            if(data.status) {
+              this.$emit('success');
+            } else {
+              this.$notification.error('Неверный логин или пароль')
+            }
           })
-          .catch(() => {
-            alert('Неверный логин или пароль');
-          })
+          .catch(() => this.$notification.error('Ошибка входа в учетную запись'))
           .finally(() => {
             this.isLoading = false;
           });

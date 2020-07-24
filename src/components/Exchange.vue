@@ -11,24 +11,26 @@
         </apexchart>
       </v-col>
       <v-col cols="3">
-        <stock-list @stock="stock = $event"/>
+        <stock-list />
       </v-col>
     </v-row>
     <v-row justify="space-around">
       <v-col cols="12" md="5">
-        <order-form :stock-name="stock"/>
+        <order-form />
       </v-col>
       <v-col cols="4">
         <own-orders-list :orders="ownOrders"/>
       </v-col>
       <v-col cols="3">
-        <order-list :orders="allOrders" :own-orders="ownOrders"/>
+        <order-list :orders="actualWTBOrders" :own-orders="ownOrders"/>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+  import { mapState, mapGetters } from 'vuex';
+
   import StockList from './list/StockList';
   import OrderList from './list/OrderList';
   import OwnOrdersList from './list/OwnOrdersList';
@@ -300,23 +302,11 @@
             },
           ]
         }],
-        stock: 'ЧГК',
-        ownOrders: [
-          {id: 1, price: 100, amount: 10},
-          {id: 2, price: 87, amount: 8},
-          {id: 3, price: 65, amount: 14},
-          {id: 4, price: 121, amount: 5},
-        ],
-        allOrders: [
-          {id: 1, price: 100, amount: 10},
-          {id: 2, price: 87, amount: 8},
-          {id: 3, price: 65, amount: 14},
-          {id: 4, price: 121, amount: 5},
-          {id: 5, price: 12, amount: 87},
-          {id: 6, price: 117, amount: 2},
-          {id: 7, price: 52, amount: 6},
-        ],
       };
+    },
+    computed: {
+      ...mapState('game', ['ownOrders']),
+      ...mapGetters('game', ['actualWTBOrders', 'actualWTSOrders']),
     },
   };
 </script>

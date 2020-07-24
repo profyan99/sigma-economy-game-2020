@@ -15,7 +15,7 @@
         </thead>
         <tbody>
         <tr v-for="order in ordersSorted"
-            :key="order.id"
+            :key="order.orderId"
             :class="{ own: isOwn(order) }"
         >
           <td>{{ order.price }}</td>
@@ -50,7 +50,7 @@
     },
     methods: {
       isOwn(order) {
-        return Boolean(this.ownOrders.find((ownOrder) => ownOrder.id === order.id));
+        return Boolean(this.ownOrders.find((ownOrder) => ownOrder.orderId === order.orderId));
       }
     },
   };

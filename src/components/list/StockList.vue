@@ -7,11 +7,11 @@
     <v-list dense>
       <v-list-item-group v-model="stock" color="deep-purple">
         <v-list-item
-            v-for="(stock, i) in stocks"
+            v-for="(stock, i) in stockList"
             :key="i"
         >
           <v-list-item-content>
-            <v-list-item-title v-text="stock.name"></v-list-item-title>
+            <v-list-item-title v-text="stock"></v-list-item-title>
           </v-list-item-content>
         </v-list-item>
       </v-list-item-group>
@@ -20,22 +20,24 @@
 </template>
 
 <script>
+  import { mapActions, mapState } from 'vuex';
+
   export default {
     name: 'StockList',
     data() {
       return {
         stock: 0,
-        stocks: [
-          { name: 'ЧГК' },
-          { name: 'Полигон' },
-          { name: 'Интеллектуальное казино' },
-          { name: 'КаНоБу' },
-        ],
       };
+    },
+    methods: {
+      ...mapActions('game', ['setStock']),
+    },
+    computed: {
+      ...mapState('game', ['stockList']),
     },
     watch: {
       stock() {
-        this.$emit('stock', this.stocks[this.stock].name);
+        this.setStock(this.stockList[this.stock]);
       },
     },
   };

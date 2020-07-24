@@ -4,7 +4,7 @@
       <v-row justify="space-around">
         <v-card outlined tile min-width="250px">
           <v-toolbar dense flat color="grey lighten-3">
-            <v-toolbar-title>Покупка {{ stockName }}</v-toolbar-title>
+            <v-toolbar-title>Покупка {{ stock }}</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
           <v-card-text>
@@ -17,7 +17,7 @@
         </v-card>
         <v-card outlined tile min-width="250px">
           <v-toolbar dense flat color="grey lighten-3">
-            <v-toolbar-title>Продажа {{ stockName }}</v-toolbar-title>
+            <v-toolbar-title>Продажа {{ stock }}</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
           <v-card-text>
@@ -34,15 +34,16 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
   import BaseOrderForm from './BaseOrderForm';
+
   export default {
     name: 'OrderForm',
-    components: {BaseOrderForm},
-    props: {
-      stockName: {
-        type: String,
-        required: true,
-      },
+    components: {
+      BaseOrderForm,
+    },
+    computed: {
+      ...mapState('game', ['stock']),
     },
     methods: {
       buy({ amount, price }) {
