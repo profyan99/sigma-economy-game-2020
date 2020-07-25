@@ -80,7 +80,7 @@ export default {
   min-height: 50px;
   height: fit-content;
   max-height: 200px;
-  background-color: rgba(255, 255, 255, 0.73);
+  background-color: #348131;
   border-bottom-left-radius: 5px;
   border-top-left-radius: 5px;
   display: flex;
@@ -88,9 +88,10 @@ export default {
   opacity: 1;
   padding: 10px;
   font-weight: 400;
-  font-size: 14px;
-  color: #2b2b2b;
+  font-size: 15px;
+  color: #f1f1f1;
   overflow: hidden;
+  align-items: center;
 }
 
 .notification:hover {
@@ -99,7 +100,7 @@ export default {
 
 .notification.error {
   background-color: rgba(255, 0, 0, 0.92);
-  color: rgba(255, 255, 255, 0.86);
+  color: #f1f1f1;
 }
 
 </style>

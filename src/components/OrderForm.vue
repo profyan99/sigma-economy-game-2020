@@ -4,7 +4,7 @@
       <v-row justify="space-around">
         <v-card outlined tile min-width="250px">
           <v-toolbar dense flat color="grey lighten-3">
-            <v-toolbar-title>Покупка {{ stock }}</v-toolbar-title>
+            <v-toolbar-title>Купить акции {{ stock }}</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
           <v-card-text>
@@ -17,7 +17,7 @@
         </v-card>
         <v-card outlined tile min-width="250px">
           <v-toolbar dense flat color="grey lighten-3">
-            <v-toolbar-title>Продажа {{ stock }}</v-toolbar-title>
+            <v-toolbar-title>Продать акции {{ stock }}</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
           <v-card-text>
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex';
+  import { mapState, mapActions } from 'vuex';
   import BaseOrderForm from './BaseOrderForm';
 
   export default {
@@ -46,11 +46,24 @@
       ...mapState('game', ['stock']),
     },
     methods: {
-      buy({ amount, price }) {
-        console.log(amount, price);
+      ...mapActions('game', ['buyOrder', 'sellOrder']),
+      async buy({ amount, price }) {
+        await this.buyOrder({
+          amount: parseInt(amount),
+          price: parseFloat(price),
+          WTS: false,
+          type: this.stock,
+          forced: false,
+        });
       },
-      sell({ amount, price }) {
-        console.log(amount, price);
+      async sell({ amount, price }) {
+        await this.sellOrder({
+          amount,
+          price,
+          WTS: true,
+          type: this.stock,
+          forced: false,
+        });
       },
     },
   };

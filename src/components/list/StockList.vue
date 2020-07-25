@@ -5,10 +5,11 @@
       <v-spacer></v-spacer>
     </v-toolbar>
     <v-list dense>
-      <v-list-item-group v-model="stock" color="deep-purple">
+      <v-list-item-group v-model="currentStock" color="deep-purple">
         <v-list-item
             v-for="(stock, i) in stockList"
             :key="i"
+            @click="setStock(stock)"
         >
           <v-list-item-content>
             <v-list-item-title v-text="stock"></v-list-item-title>
@@ -24,21 +25,19 @@
 
   export default {
     name: 'StockList',
-    data() {
-      return {
-        stock: 0,
-      };
-    },
     methods: {
       ...mapActions('game', ['setStock']),
     },
     computed: {
-      ...mapState('game', ['stockList']),
-    },
-    watch: {
-      stock() {
-        this.setStock(this.stockList[this.stock]);
-      },
+      ...mapState('game', ['stockList', 'stock']),
+      currentStock: {
+        get() {
+          return this.stockList.indexOf(this.stock);
+        },
+        async set(val) {
+          await this.setStock(this.stockList[val]);
+        },
+      }
     },
   };
 </script>

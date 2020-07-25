@@ -24,6 +24,7 @@
     <v-btn
         block
         color="primary"
+        :disabled="Boolean(lastOrder)"
         @click="$emit('submit', form)"
     >
       <slot name="button"></slot>
@@ -32,6 +33,8 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex';
+
   export default {
     name: 'BaseOrderForm',
     data() {
@@ -44,6 +47,7 @@
       };
     },
     computed: {
+      ...mapState('game', ['lastOrder']),
       amount() {
         return this.form.amount;
       },
@@ -66,7 +70,7 @@
           return;
         }
 
-        this.form.price = Math.floor(this.total / this.amount);
+        this.form.price = this.total / this.amount;
       },
     },
   };

@@ -1,7 +1,7 @@
 <template>
   <v-card class="mx-auto" tile>
     <v-toolbar dense flat color="grey lighten-3">
-      <v-toolbar-title>Все заказы</v-toolbar-title>
+      <v-toolbar-title>{{ title }}</v-toolbar-title>
       <v-spacer></v-spacer>
     </v-toolbar>
     <v-simple-table height="350px" dense>
@@ -10,7 +10,7 @@
         <tr>
           <th class="text-left">Цена</th>
           <th class="text-left">Количество</th>
-          <th class="text-left">Итоговая сумма</th>
+          <th class="text-left">Сумма</th>
         </tr>
         </thead>
         <tbody>
@@ -18,9 +18,9 @@
             :key="order.orderId"
             :class="{ own: isOwn(order) }"
         >
-          <td>{{ order.price }}</td>
-          <td>{{ order.amount }}</td>
-          <td>{{ order.price * order.amount }}</td>
+          <td>{{ order.price.toFixed(2) }}</td>
+          <td>{{ `${order.residual}/${order.amount}` }}</td>
+          <td>{{ (order.price * order.amount).toFixed(2) }}</td>
         </tr>
         </tbody>
       </template>
@@ -40,6 +40,10 @@
         type: Array,
         required: true,
       },
+      title: {
+        type: String,
+        required: true,
+      }
     },
     computed: {
       ordersSorted() {

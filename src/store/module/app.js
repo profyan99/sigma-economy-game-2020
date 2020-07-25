@@ -3,7 +3,7 @@ import axios from 'axios';
 const state = {
   notifications: [],
   lastNotificationId: 0,
-  isLoggedIn: false,
+  isLoggedIn: true,
   isLoading: false,
 };
 
@@ -50,7 +50,7 @@ const actions = {
   },
   setLoading({ commit }, loading) {
     commit('setLoading', loading);
-  }
+  },
 };
 
 const getters = {
